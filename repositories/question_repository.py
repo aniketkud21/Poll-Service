@@ -1,27 +1,31 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from models.question import Question
+
 from uuid import UUID
 
 class QuestionRepository:
-    def __init__(self, db: Session):
-        self.db = db
 
-    def create(self, question: Question) -> Question:
-        self.db.add(question)
-        self.db.flush()
-        self.db.refresh(question)
-        return question
-
-    def get_by_id(self, question_id: UUID) -> Question | None:
+    @staticmethod
+    def get_by_id(db: Session, question_id: UUID) -> Question | None:
         return (
-            self.db
-            .query(Question)
+            db.query(Question)
+            .options(
+                joinedload(Question.options)
+            )
             .filter(Question.question_id == question_id)
             .first()
         )
 
-    def list(self) -> list[Question]:
-        return self.db.query(Question).all()
+    @staticmethod
+    def get_all(db: Session) -> list[Question]:
+        return db.query(Question).all()
 
-    def delete(self, question: Question) -> None:
-        self.db.delete(question)
+    @staticmethod
+    def create(db: Session, question: Question) -> Question:
+        db.add(question)
+        db.flush()
+        return question
+
+    @staticmethod
+    def delete(db: Session, question: Question) -> None:
+        db.delete(question)

@@ -13,4 +13,4 @@ if DATABASE_URL is None:
 
 engine = create_engine(DATABASE_URL)
 
-Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Session = sessionmaker(autocommit=False, autoflush=False, bind=engine, expire_on_commit=False)

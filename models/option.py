@@ -14,8 +14,8 @@ class Option(Base):
     option_id = Column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid7)
     option_text = Column(String)
     order_index = Column(Integer)
-    created_at = Column(DateTime(timezone=True), default=datetime.now(timezone.utc))
-    updated_at = Column(DateTime(timezone=True), default=datetime.now(timezone.utc))
+    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
     question_id = Column(UUID(as_uuid=True), ForeignKey("questions.question_id"))
     question = relationship("Question", back_populates="options")

@@ -12,8 +12,8 @@ class Vote(Base):
     __tablename__ = "votes"
 
     vote_id = Column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid7)
-    created_at = Column(DateTime(timezone=True), default=datetime.now(timezone.utc))
-    updated_at = Column(DateTime(timezone=True), default=datetime.now(timezone.utc))
+    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
     user_id = Column(UUID(as_uuid=True), default=uuid.uuid7)
 

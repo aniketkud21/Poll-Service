@@ -17,8 +17,8 @@ class Poll(Base):
     type = Column(String)
     status = Column(String)
     ends_at = Column(DateTime(timezone=True))
-    created_at = Column(DateTime(timezone=True), default=datetime.now(timezone.utc))
-    updated_at = Column(DateTime(timezone=True), default=datetime.now(timezone.utc))
+    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
-    questions = relationship("Question", back_populates="poll")
+    questions = relationship("Question", back_populates="poll", cascade="all, delete-orphan")
 

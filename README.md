@@ -50,7 +50,7 @@ A robust, asynchronous Poll Management Service built with **FastAPI**, **SQLAlch
 Start the development server with hot-reload enabled:
 
 ```bash
-uv run uvicorn server:app --reload --port 8081
+uv run uvicorn api.server:app --reload --port 8081
 ```
 
 The API will be available at `http://127.0.0.1:8081`.
@@ -64,26 +64,45 @@ Once the server is running, you can access the interactive documentation:
 
 ### Key Endpoints
 
-| Method | Endpoint     | Description                  |
-| ------ | ------------ | ---------------------------- |
-| `POST` | `/polls`     | Create a new poll            |
-| `GET`  | `/polls`     | List all polls               |
-| `POST` | `/questions` | Add a question to the system |
-| `POST` | `/options`   | Add options to a question    |
-| `POST` | `/votes`     | Cast a vote                  |
+| Method | Endpoint              | Description                              |
+| ------ | --------------------- | ---------------------------------------- |
+| `POST` | `/polls`              | Create a new poll (nested structure)     |
+| `GET`  | `/polls`              | List all polls                           |
+| `GET`  | `/polls/{id}`         | Get detailed poll with questions/options |
+| `POST` | `/internal/questions` | Create question (standalone)             |
+| `POST` | `/internal/options`   | Create option (standalone)               |
+| `POST` | `/internal/votes`     | Cast a vote                              |
 
 ## 🏗️ Project Structure
 
 ```text
 poll-service/
+├── api/
+│   ├── routes/      # FastAPI route definitions
+│   ├── schemas/     # Pydantic validation models
+│   └── server.py    # Application entry point
 ├── db/              # Database connection and session management
 ├── models/          # SQLAlchemy database models
-├── repositories/    # Data access layer (CRUD operations)
+├── repositories/    # Data access layer
 ├── services/        # Business logic layer
-├── server.py        # FastAPI application and route definitions
+├── tests/           # Automated test suite
 ├── pyproject.toml   # Project dependencies and metadata
 └── .env             # Environment configuration (secrets)
 ```
+
+## 🧪 Testing
+
+The project uses `pytest` for automated testing.
+
+### Running Tests
+
+To run all tests, use the following command:
+
+```bash
+uv run pytest
+```
+
+For more detailed information on testing, refer to the [Tests README](tests/README.md).
 
 ## 📝 License
 
